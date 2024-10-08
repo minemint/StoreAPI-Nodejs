@@ -20,7 +20,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
   })
