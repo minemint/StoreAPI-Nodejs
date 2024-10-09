@@ -123,7 +123,7 @@ app.get("/api/users", async (req, res) => {
     const [recheck] = await db.query("SELECT * FROM users WHERE email = ?", [
       user.email,
     ]);
-                    console.log("recheck : "recheck);
+    console.log("recheck: ",recheck);
     if (recheck.length > 0) {
       if (recheck[0].role === "Admin") {
         const result = await db.query("SELECT * FROM users");
