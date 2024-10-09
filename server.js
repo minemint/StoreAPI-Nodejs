@@ -88,6 +88,7 @@ app.post("/api/login", async (req, res) => {
             //   httpOnly: true,
             //   sameSite: "none",
             // });
+              console.log("user : "user,"token : ",token);
             res.status(200).json({
               user: user,
               message: "User logged in successfully",
@@ -121,9 +122,11 @@ app.get("/api/users", async (req, res) => {
     const [recheck] = await db.query("SELECT * FROM users WHERE email = ?", [
       user.email,
     ]);
+                    console.log("recheck : "recheck);
     if (recheck.length > 0) {
       if (recheck[0].role === "Admin") {
         const result = await db.query("SELECT * FROM users");
+          console.log(result)
         res.status(200).json({
           result: result,
           status: "ok",
