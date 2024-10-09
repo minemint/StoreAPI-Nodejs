@@ -89,7 +89,7 @@ app.post("/api/login", async (req, res) => {
             //   sameSite: "none",
             // });
             res.status(200).json({
-              email: user.email,
+              user: user,
               message: "User logged in successfully",
               token: token,
             });
