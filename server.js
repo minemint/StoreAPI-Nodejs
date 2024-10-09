@@ -88,7 +88,7 @@ app.post("/api/login", async (req, res) => {
             //   httpOnly: true,
             //   sameSite: "none",
             // });
-              console.log("user : "user,"token : ",token);
+              console.log("user : " user,"token : "token);
             res.status(200).json({
               user: user,
               message: "User logged in successfully",
