@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
 credentials:true,
-  origin:[https://storeapi-nodejs.onrender.com],
+  origin:["https://storeapi-nodejs.onrender.com"],
 }));
 app.use(cookieParser());
 app.use(
