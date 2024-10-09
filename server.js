@@ -125,7 +125,7 @@ app.get("/api/users", async (req, res) => {
       if (recheck[0].role === "Admin") {
         const [result] = await db.query("SELECT * FROM users");
         res.status(200).json({
-          result: result,
+          result: [result],
           status: "ok",
           message: "Users fetched successfully",
         });
@@ -133,7 +133,7 @@ app.get("/api/users", async (req, res) => {
         res.status(401).json({ message: "Unauthorized access" });
       }
     } else {
-      res.status(401).json({ message: "Unauthorized access" });
+      res.status(401).json({ message: "Not found" });
     }
   } catch (err) {
     console.log(err);
