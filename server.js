@@ -123,9 +123,9 @@ app.get("/api/users", async (req, res) => {
     ]);
     if (recheck.length > 0) {
       if (recheck[0].role === "Admin") {
-        const [result] = await db.query("SELECT * FROM users");
+        const result = await db.query("SELECT * FROM users");
         res.status(200).json({
-          result: [result],
+          result: result,
           status: "ok",
           message: "Users fetched successfully",
         });
