@@ -145,7 +145,7 @@ app.get("/api/users", async (req, res) => {
 
 // Add new product (Admin only)
 app.post("/api/products", async (req, res) => {
-  const { name, price, description, image, category } = req.body;
+  const { productname, unitprice , unitinstock, productpicture, category_id } = req.body;
 
   try {
     const authHeader = req.headers.authorization;
@@ -156,7 +156,7 @@ app.post("/api/products", async (req, res) => {
     
     const [recheck] = await db.query("SELECT * FROM users WHERE email = ?", [user.email]);
     if (recheck.length > 0 && recheck[0].role === "Admin") {
-      const productdata = { name, price, description, image, category };
+      const productdata = {  productname, unitprice , unitinstock, productpicture, category_id };
       await db.query("INSERT INTO products SET ?", [productdata]);
       res.status(201).json({ status: "ok", message: "Product added successfully" });
     } else {
@@ -172,18 +172,18 @@ app.post("/api/products", async (req, res) => {
 // Update product by ID
 app.post("/api/products/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, price, description, image, category } = req.body;
+  const {  productname, unitprice , unitinstock, productpicture, category_id} = req.body;
 
   try {
     const [product] = await db.query("SELECT * FROM products WHERE id = ?", [id]);
     
     if (product.length > 0) {
       const productdata = {
-        name: name || product[0].name,
-        price: price || product[0].price,
-        description: description || product[0].description,
-        image: image || product[0].image,
-        category: category || product[0].category,
+        productname: productname || product[0].productname,
+        unitprice: unitprice || product[0].unitprice,
+        unitinstock: unitinstock || product[0].unitinstock,
+        productpicture: productpicture || product[0].productpicture,
+        category_id: category_id || product[0].category_id,
       };
       await db.query("UPDATE products SET ? WHERE id = ?", [productdata, id]);
       res.status(200).json({ status: "ok", message: "Product updated successfully" });
