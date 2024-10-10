@@ -32,6 +32,7 @@ app.use(
 const PORT = 5000;
 const saltRounds = 10;
 const secret = process.env.SECRET;
+
 //User Roles
 app.post("/api/register", async (req, res) => {
   const email = req.body.email;
@@ -61,35 +62,6 @@ app.post("/api/register", async (req, res) => {
     console.log(err);
     res.status(500).json({ error: "Internal server error" });
   }
-});
-
-app.get("/", async (req, res) => {
-  res.render("login.ejs");
-});
-app.get("/register", async (req, res) => {
-  res.render("register.ejs");
-});
-app.post("/login", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  try {
-    const response = await axios.post(
-      "https://storeapi-nodejs.onrender.com/api/login",
-      {
-        email: email,
-        password: password,
-      }
-    );
-    console.log(response.data);
-    res.render("index.ejs");
-  } catch (err) {
-    console.log(err);
-    res.render("login.ejs");
-  }
-});
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
 });
 app.post("/api/login", async (req, res) => {
   const email = req.body.email;
@@ -138,7 +110,7 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-app.get("/api/logout", (req, res) => {
+app.get("/api/logout",  (req, res) => {
   try {
     localStorage.removeItem("token");
     res.status(200).json({ message: "User logged out successfully" });
@@ -148,9 +120,9 @@ app.get("/api/logout", (req, res) => {
   }
   res.json({ message: "User logged out successfully" });
 });
-app.get("/api/products", (req, res) => {
+app.get("/api/products", async (req, res) => {
   try {
-    const result = db.query("SELECT * FROM products");
+    const result = await db.query("SELECT * FROM products");
     res.status(200).json({
       result: result,
       status: "ok",
@@ -161,10 +133,10 @@ app.get("/api/products", (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-app.get("/api/products/:id", (req, res) => {
+app.get("/api/products/:id",async (req, res) => {
   const id = req.params.id;
   try {
-    const [result] = db.query("SELECT * FROM products WHERE id = ?", [id]);
+    const result =await db.query("SELECT * FROM products WHERE id = ?", [id]);
     if (result.length > 0) {
       res.status(200).json({
         result: result,
@@ -264,7 +236,7 @@ app.post("/api/products", (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error", err });
   }
 });
 app.post("/api/products/:id", async (req, res) => {
