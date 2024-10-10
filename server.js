@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import express, { response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -23,7 +22,6 @@ app.use(
     origin: ["https://example-frontend-github-io.onrender.com"],
   })
 );
-=======
 import axios from "axios";
 import express from "express";
 import bodyParser from "body-parser";
@@ -31,13 +29,10 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-<<<<<<<< HEAD:index.js
-========
 app.use(cors({
     credentials: true,
     origin: ["https://example-frontend-github-io.onrender.com"],
 }));
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
 app.use(cookieParser());
 app.use(
   session({
@@ -46,7 +41,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-<<<<<<< HEAD
 
 const PORT = 5000;
 const saltRounds = 10;
@@ -81,9 +75,6 @@ app.post("/api/register", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-=======
->>>>>>>> 2c99542d71787cf48f0d008537030219237a6827:server.js
-
 app.get("/", async (req, res) => {
   res.render("login.ejs");
 });
@@ -106,13 +97,10 @@ app.post("/login", async (req, res) => {
     res.render("login.ejs");
   }
 });
-<<<<<<<< HEAD:index.js
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
-========
 
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
 app.post("/api/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -132,10 +120,8 @@ app.post("/api/login", async (req, res) => {
             const token = jwt.sign({ email: user.email }, secret, {
               expiresIn: "1h",
             });
-<<<<<<< HEAD
             console.log("token: ", token);
             console.log("user: ", user);
-=======
             // res.cookie("token", token, {
             //   maxAge: 300000,
             //   secure: true,
@@ -144,7 +130,6 @@ app.post("/api/login", async (req, res) => {
             // });
               console.log("token: ",token);
                   console.log("user: ",user);
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
             res.status(200).json({
               user: user,
               message: "User logged in successfully",
@@ -156,18 +141,15 @@ app.post("/api/login", async (req, res) => {
         }
       });
     } else {
-<<<<<<< HEAD
       res.status(404).json({ message: "User not found", status: "error" });
-=======
+
       res.status(404).json({ message: "User not found" });
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
     }
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
-<<<<<<< HEAD
 app.get("/api/logout", (req, res) => {
   try {
     localStorage.removeItem("token");
@@ -215,9 +197,6 @@ app.post("/api/orders/:id", (req, res) => {});
 app.delete("/api/orders/:id", (req, res) => {});
 
 //Role Admin only
-=======
-
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
 app.get("/api/users", async (req, res) => {
   try {
     const authHeder = req.headers.authorization;
@@ -232,19 +211,16 @@ app.get("/api/users", async (req, res) => {
     const [recheck] = await db.query("SELECT * FROM users WHERE email = ?", [
       user.email,
     ]);
-<<<<<<< HEAD
     console.log("recheck: ", recheck);
     if (recheck.length > 0) {
       if (recheck[0].role === "Admin") {
         const result = await db.query("SELECT * FROM users");
         console.log("result: ", result);
-=======
     console.log("recheck: ",recheck);
     if (recheck.length > 0) {
       if (recheck[0].role === "Admin") {
         const [result] = await db.query("SELECT * FROM users");
           console.log("result: ",result)
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
         res.status(200).json({
           result: result,
           status: "ok",
@@ -261,7 +237,6 @@ app.get("/api/users", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-<<<<<<< HEAD
 app.post("/api/products", (req, res) => {
   const name = req.body.name;
   const price = req.body.price;
@@ -343,10 +318,7 @@ app.delete("/api/products/:id", (req, res) => {});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-=======
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
->>>>>>>> 2c99542d71787cf48f0d008537030219237a6827:server.js
->>>>>>> 2c99542d71787cf48f0d008537030219237a6827
