@@ -12,8 +12,6 @@ import cookieParser from "cookie-parser";
 
 env.config();
 
-const app = express();
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -22,6 +20,7 @@ app.use(
     origin: ["https://example-frontend-github-io.onrender.com"],
   })
 );
+
 import axios from "axios";
 import express from "express";
 import bodyParser from "body-parser";
@@ -29,10 +28,12 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors({
+app.use(
+  cors({
     credentials: true,
     origin: ["https://example-frontend-github-io.onrender.com"],
-}));
+  })
+);
 app.use(cookieParser());
 app.use(
   session({
@@ -75,6 +76,7 @@ app.post("/api/register", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 app.get("/", async (req, res) => {
   res.render("login.ejs");
 });
@@ -86,10 +88,13 @@ app.post("/login", async (req, res) => {
   const password = req.body.password;
 
   try {
-    const response = await axios.post("https://storeapi-nodejs.onrender.com/api/login", {
-      email: email,
-      password: password,
-    });
+    const response = await axios.post(
+      "https://storeapi-nodejs.onrender.com/api/login",
+      {
+        email: email,
+        password: password,
+      }
+    );
     console.log(response.data);
     res.render("index.ejs");
   } catch (err) {
@@ -100,7 +105,6 @@ app.post("/login", async (req, res) => {
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
-
 app.post("/api/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -128,8 +132,8 @@ app.post("/api/login", async (req, res) => {
             //   httpOnly: true,
             //   sameSite: "none",
             // });
-              console.log("token: ",token);
-                  console.log("user: ",user);
+            console.log("token: ", token);
+            console.log("user: ", user);
             res.status(200).json({
               user: user,
               message: "User logged in successfully",
@@ -141,8 +145,6 @@ app.post("/api/login", async (req, res) => {
         }
       });
     } else {
-      res.status(404).json({ message: "User not found", status: "error" });
-
       res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
@@ -216,21 +218,23 @@ app.get("/api/users", async (req, res) => {
       if (recheck[0].role === "Admin") {
         const result = await db.query("SELECT * FROM users");
         console.log("result: ", result);
-    console.log("recheck: ",recheck);
-    if (recheck.length > 0) {
-      if (recheck[0].role === "Admin") {
-        const [result] = await db.query("SELECT * FROM users");
-          console.log("result: ",result)
-        res.status(200).json({
-          result: result,
-          status: "ok",
-          message: "Users fetched successfully",
-        });
-      } else {
-        res.status(401).json({ message: "Unauthorized access" });
+        console.log("recheck: ", recheck);
+        if (recheck.length > 0) {
+          if (recheck[0].role === "Admin") {
+            const [result] = await db.query("SELECT * FROM users");
+            console.log("result: ", result);
+            res.status(200).json({
+              result: result,
+              status: "ok",
+              message: "Users fetched successfully",
+            });
+          } else {
+            res.status(401).json({ message: "Unauthorized access" });
+          }
+        } else {
+          res.status(401).json({ message: "Not found" });
+        }
       }
-    } else {
-      res.status(401).json({ message: "Not found" });
     }
   } catch (err) {
     console.log(err);
@@ -252,8 +256,10 @@ app.post("/api/products", (req, res) => {
     console.log("authToken", authToken);
     const user = jwt.verify(authToken, secret);
     console.log("decodedToken", user);
-    const [recheck] = db.query("SELECT * FROM users WHERE email = ?", [user.email]);
-    if(recheck.length > 0){
+    const [recheck] = db.query("SELECT * FROM users WHERE email = ?", [
+      user.email,
+    ]);
+    if (recheck.length > 0) {
       const productdata = {
         name: name,
         price: price,
@@ -267,7 +273,7 @@ app.post("/api/products", (req, res) => {
         status: "ok",
         message: "Product added successfully",
       });
-    }else{
+    } else {
       res.status(401).json({ message: "Unauthorized access  " });
     }
   } catch (err) {
