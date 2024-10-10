@@ -11,7 +11,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 
 env.config();
-
+const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
