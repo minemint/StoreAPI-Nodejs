@@ -20,7 +20,6 @@ app.use(
     origin: ["https://example-frontend-github-io.onrender.com"],
   })
 );
-const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
