@@ -5,7 +5,7 @@ import env from "dotenv";
 import bcrypt from "bcrypt";
 import db from "./database.js";
 import jwt from "jsonwebtoken";
-import passport, { use } from "passport";
+import passport from "passport";
 import passportJWT from "passport-jwt";
 import session from "express-session";
 import cookieParser from "cookie-parser";
